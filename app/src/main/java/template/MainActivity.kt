@@ -4,12 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import template.theme.TemplateTheme
@@ -20,6 +28,8 @@ class MainActivity : ComponentActivity() {
 
         configureEdgeToEdgeWindow()
 
+        val itemsList = listOf("Android", "iOS", "Windows", "Mac", "Linux")
+
         setContent {
             ConfigureTransparentSystemBars()
 
@@ -27,8 +37,33 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    Greeting("Android")
+                    // create a list of composable items
+                    // and pass it to the LazyColumn
+
+                    // LazyColumn is a vertically scrolling list
+                    // that only composes and lays out the currently visible items.
+                    // LazyColumn fill max size of the parent
+
+                    ColumnContent(itemsList)
+
+                    //           Greeting("Android")
                 }
+            }
+        }
+    }
+
+    @Composable
+    private fun ColumnContent(itemsList: List<String>) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+
+            ) {
+            items(itemsList) { item ->
+                Text(text = item)
             }
         }
     }
